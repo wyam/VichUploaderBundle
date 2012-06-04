@@ -83,10 +83,16 @@ class FileSystemStorage implements StorageInterface
                 'Unable to find uploadable field named: "%s"', $field
             ));
         }
+        
+        if($mapping->getFileNameProperty()->getValue($obj) instanceof File){
+            $fileName = $mapping->getFileNameProperty()->getValue($obj)->getFileName();
+        } else {
+            $fileName = $mapping->getFileNameProperty()->getValue($obj);
+        }
 
         return sprintf('%s/%s',
             $mapping->getUploadDir(),
-            $mapping->getFileNameProperty()->getValue($obj)->getFileName()
+            $fileName
         );
     }
 }
